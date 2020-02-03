@@ -11,6 +11,7 @@ namespace Sweepstakes
         Dictionary<int,Contestant> contestants = new Dictionary<int,Contestant>();
 
         string name { get; set; }
+        int registrationNumber = 0;
 
         public Sweepstakes(string name)
         {
@@ -19,21 +20,25 @@ namespace Sweepstakes
 
         public void RegisterContestant(Contestant contestant) 
         {
-            contestants.Add(contestant.registrationNumber,contestant);
+            registrationNumber++;
+            contestant.registrationNumber = registrationNumber;
+            contestants.Add(registrationNumber,contestant);
         }
 
         public Contestant PickWinner()
         {
             Random random = new Random();
+            int winner = random.Next(1, registrationNumber);
+            Contestant winningContestant;
+            contestants.TryGetValue(winner, out winningContestant);
+            return winningContestant;
             
             
         }
 
         public void PrintContestantInfo(Contestant contestant)
         {
-
             Console.WriteLine($"{contestant.firstName} {contestant.lastName} {contestant.emailAddress} {contestant.registrationNumber}");
-
         }
     }
 }
